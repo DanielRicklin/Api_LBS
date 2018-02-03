@@ -49,7 +49,7 @@ Dans /src composer install
 * [Eloquent](https://laravel.com/docs/5.0/eloquent) - ORM
 * [Twig](https://twig.symfony.com/) - Template engine for PHP
 
-## Autheurs
+## Auteurs
 
 * **Daniel Ricklin** - [Github](https://github.com/DanielRicklin)
 * **alhasnecode** - [Github](https://github.com/alhasnecode)
