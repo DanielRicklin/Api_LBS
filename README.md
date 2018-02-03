@@ -20,7 +20,7 @@ Nécéssite Composer
 Récupération du projet
 
 ```
-Clone le depot git — git clone https://github.com/Texier54/LeBonSandwich
+Clone le depot git
 ```
 
 ```
@@ -51,12 +51,7 @@ Dans /src composer install
 
 ## Autheurs
 
-* **Baptiste Texier** - *Lancement* - [Github](https://github.com/texier54)
-* **Islam Elshobokshy** - [Github](https://github.com/elshobokshy)
+* **Daniel Ricklin** - [Github](https://github.com/DanielRicklin)
 * **alhasnecode** - [Github](https://github.com/alhasnecode)
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
-
-
+* **Baptiste Texier**- [Github](https://github.com/texier54)
+* **Islam Elshobokshy** - [Github](https://github.com/elshobokshy)

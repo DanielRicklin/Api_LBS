@@ -146,7 +146,13 @@
 				try {
 					$categ->save();
 				} catch(\Exception $e) {
-					echo 'erreur';
+					$resp= $resp->withStatus(400);
+					
+					$temp = array("type" => "error", "error" => '400', "message" => "Création de la catégorie impossible");
+						
+					$resp->getBody()->write(json_encode($temp));
+					
+					return $resp;
 				}
 
 				$resp= $resp->withHeader( 'Content-type', "application/json;charset=utf-8");
@@ -348,7 +354,7 @@
 
 		public function createCommande($req, $resp, $args) {
 
-			if ($req->getAttribute( 'has_errors' )) {
+			/*if ($req->getAttribute( 'has_errors' )) {
 
 				$resp= $resp->withStatus(400);
 
@@ -358,9 +364,10 @@
 
 				return $resp;	
 			} 
-			else {
-
+			else {*/
 				$parsedBody = $req->getParsedBody();
+			if(isset($parsedBody['nom_client']) && isset($parsedBody['mail_client']) && isset($parsedBody['livraison']['date']) && isset($parsedBody['livraison']['heure'])){
+				
 
 				$com = new \lbs\common\models\Commande();
 				$com->id = Uuid::uuid1();
@@ -387,15 +394,23 @@
 
 				$resp->getBody()->write(json_encode($tab));
 				return $resp;
-
+			}else{
+				$resp= $resp->withStatus(400);
+				
+				$temp = array("type" => "error", "error" => '400', "message" => "Donnée manquante");
+								
+				$resp->getBody()->write(json_encode($temp));
+				
+				return $resp;
 			}
+			//}
 		}
 
 
 		public function payerCommande($req, $resp, $args) {
 
 
-			if ($req->getAttribute( 'has_errors' )) {
+			/*if ($req->getAttribute( 'has_errors' )) {
 
 				$resp= $resp->withStatus(400);
 
@@ -405,7 +420,7 @@
 
 				return $resp;	
 			} 
-			else {
+			else {*/
 
 				$parsedBody = $req->getParsedBody();
 
@@ -414,7 +429,7 @@
 
 					$com = \lbs\common\models\Commande::findOrFail($args['id']);
 
-					$com->etat = 1;
+					$com->etat = 2;
 					$com->save();
 
 					return $resp->withJson(array(
@@ -435,7 +450,7 @@
 					return $resp;	
 				}
 
-			}
+			//}
 
 		}
 
