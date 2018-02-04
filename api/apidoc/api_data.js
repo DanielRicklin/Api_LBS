@@ -1,51 +1,461 @@
 define({ "api": [
   {
     "type": "get",
-    "url": "/categories",
-    "title": "Liste des catégories",
-    "group": "Categorie",
+    "url": "/cartes/:id",
+    "title": "accéder à une carte",
+    "group": "Cartes",
+    "version": "1.0.0",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "id",
+            "description": "<p>Identifiant unique de la catégorie</p>"
+          }
+        ]
+      }
+    },
     "success": {
       "fields": {
         "Success 200": [
           {
             "group": "Success 200",
-            "type": "Object[]",
+            "type": "String",
             "optional": false,
-            "field": "categories",
-            "description": "<p>Liste des catégories</p>"
+            "field": "type",
+            "description": "<p>type de la réponse, ici resource</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Object",
+            "optional": false,
+            "field": "meta",
+            "description": "<p>méta-données sur la réponse</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "STring",
+            "optional": false,
+            "field": "meta.locale",
+            "description": "<p>langue de la réponse</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Object",
+            "optional": false,
+            "field": "carte",
+            "description": "<p>la ressource carte retournée</p>"
           },
           {
             "group": "Success 200",
             "type": "Number",
             "optional": false,
-            "field": "categories.id",
-            "description": "<p>Id de la catégories</p>"
+            "field": "carte.id",
+            "description": "<p>Identifiant de la carte</p>"
           },
           {
             "group": "Success 200",
             "type": "String",
             "optional": false,
-            "field": "categories.nom",
-            "description": "<p>Nom de la catégories</p>"
+            "field": "carte.date_creation",
+            "description": "<p>Date de création de la carte</p>"
           },
           {
             "group": "Success 200",
             "type": "String",
             "optional": false,
-            "field": "categories.description",
-            "description": "<p>Description de la catégories</p>"
+            "field": "carte.date_valide",
+            "description": "<p>Date de validité de la carte</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "carte.cumul",
+            "description": "<p>Cumul de la carte</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "exemple de réponse en cas de succès",
+          "content": "HTTP/1.1 200 OK\n{\n\t\"type\" : \"collection,\n\t\"meta\" : {\n\t\t\"locale\":\"fr-FR\"\n\t},\n\t\"carte\" : {\n\t\t\"id\"  : \"4\",\n\t\t\"date_creation\" : \"0000-00-00\",\n\t\t\"date_valide\" : 0000-00-00\",\n\t\t\"cumul\" : \"14\"\n\t}\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "Erreur : 401": [
+          {
+            "group": "Erreur : 401",
+            "optional": false,
+            "field": "RefusedAccess",
+            "description": "<p>accès refusé à la ressource</p>"
+          }
+        ],
+        "Erreur : 404": [
+          {
+            "group": "Erreur : 404",
+            "optional": false,
+            "field": "MissingParameter",
+            "description": "<p>paramètre manquant dans la requête</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "exemple de réponse en cas d'erreur",
+          "content": "HTTP/1.1 404 Not Found\n\n{\n  \"type\" : \"error\",\n  \"error\" : 404,\n  \"message\" : \"ressource non disponible : /cartes/:id\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "./rest.php",
+    "groupTitle": "Cartes",
+    "name": "GetCartesId"
+  },
+  {
+    "type": "get",
+    "url": "/cartes/:id/auth",
+    "title": "authentification",
+    "group": "Cartes",
+    "version": "1.0.0",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "id",
+            "description": "<p>Identifiant unique de la catégorie</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "type",
+            "description": "<p>type de la réponse, ici resource</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Object",
+            "optional": false,
+            "field": "auth",
+            "description": "<p>la ressource auth retournée</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "auth.id",
+            "description": "<p>Identifiant de l'auth</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "auth.nom",
+            "description": "<p>Nom de l'auth</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "auth.passwd",
+            "description": "<p>Mot de passe de l'auth</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "exemple de réponse en cas de succès",
+          "content": "HTTP/1.1 200 OK\n\n{\n   \"type\" : \"collection,\n   \"id\"  : \"1\",\n   \"nom\" : \"michel\",\n   \"passwd\" : \"lebonmdp\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "Erreur : 404": [
+          {
+            "group": "Erreur : 404",
+            "optional": false,
+            "field": "MissingParameter",
+            "description": "<p>paramètre manquant dans la requête</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "exemple de réponse en cas d'erreur",
+          "content": "HTTP/1.1 404 Not Found\n\n{\n  \"type\" : \"error\",\n  \"error\" : 404,\n  \"message\" : \"ressource non disponible : /cartes/:id/auth\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "./rest.php",
+    "groupTitle": "Cartes",
+    "name": "GetCartesIdAuth"
+  },
+  {
+    "type": "post",
+    "url": "/cartes",
+    "title": "ajouter une carte",
+    "group": "Cartes",
+    "version": "1.0.0",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "nom",
+            "description": "<p>Nom de la personne</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "password",
+            "description": "<p>Mot de passe</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "exemple de paramètres",
+          "content": "{\n\t\"nom\"  : \"michel\",\n\t\"password\"  : \"lebonmdp\"\n}",
+          "type": "request"
+        }
+      ]
+    },
+    "success": {
+      "fields": {
+        "Réponse : 200": [
+          {
+            "group": "Réponse : 200",
+            "type": "json",
+            "optional": false,
+            "field": "commande",
+            "description": "<p>Paiement accépté</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "exemple de réponse en cas de succès",
+          "content": "POST /cartes/{id}/paiement HTTP/1.1\nHost: api.lbs.local:10080\nContent-Type: application/json;charset=utf8\nLocation: /cartes/r8786989-e0d2-4bfb-a72f-455ca4a16beb/paiement\n\n{\n\t\"id\": 3,\n\t\"nom\": \"michel\",\n\t\"cumule\": \"0\",\n\t\"date de validité\": \"2019-02-04 18:59:48\",\n\t\"date de création\": \"2018-02-04 18:59:48\"\n}",
+          "type": "response"
+        }
+      ]
+    },
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "Location:",
+            "description": "<p>uri de la ressource créée et l'id</p>"
+          },
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "Content-Type:",
+            "description": "<p>format de représentation de la ressource réponse</p>"
+          }
+        ]
+      }
+    },
+    "filename": "./rest.php",
+    "groupTitle": "Cartes",
+    "name": "PostCartes"
+  },
+  {
+    "type": "post",
+    "url": "/cartes/:id/paiement",
+    "title": "payer avec la carte",
+    "group": "Cartes",
+    "version": "1.0.0",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "carte_bc",
+            "description": "<p>Numéro de la carte bancaire</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "date_expiration_bc",
+            "description": "<p>Date d'expiration de la carte bancaire</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "exemple de paramètres",
+          "content": "{\n\t\"carte_bc\"  : \"1111222233334444\",\n\t\"date_expiration_bc\"  : \"12/18\"\n}",
+          "type": "request"
+        }
+      ]
+    },
+    "success": {
+      "fields": {
+        "Réponse : 200": [
+          {
+            "group": "Réponse : 200",
+            "type": "json",
+            "optional": false,
+            "field": "commande",
+            "description": "<p>Paiement accépté</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "exemple de réponse en cas de succès",
+          "content": "POST /cartes/{id}/paiement HTTP/1.1\nHost: api.lbs.local:10080\nContent-Type: application/json;charset=utf8\nLocation: /cartes/r8786989-e0d2-4bfb-a72f-455ca4a16beb/paiement\n\n{\n\t\"carte_bc\"  : \"1111222233334444\",\n\t\"date_expiration_bc\"  : \"12/18\"\n}",
+          "type": "response"
+        }
+      ]
+    },
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "Location:",
+            "description": "<p>uri de la ressource créée et l'id</p>"
+          },
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "Content-Type:",
+            "description": "<p>format de représentation de la ressource réponse</p>"
+          }
+        ]
+      }
+    },
+    "error": {
+      "fields": {
+        "Réponse : 400": [
+          {
+            "group": "Réponse : 400",
+            "optional": false,
+            "field": "MissingParameter",
+            "description": "<p>paramètre manquant dans la requête</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "exemple de réponse en cas d'erreur",
+          "content": "HTTP/1.1 400 Bad Request\n{\n  \"type\": \"error\",\n  \"error\" : 400,\n  \"message\" : \"donnée manquante\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "./rest.php",
+    "groupTitle": "Cartes",
+    "name": "PostCartesIdPaiement"
+  },
+  {
+    "type": "get",
+    "url": "/categories",
+    "title": "Liste des catégories",
+    "group": "Categorie",
+    "version": "1.0.0",
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "type",
+            "description": "<p>type de réponse</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Object",
+            "optional": false,
+            "field": "meta",
+            "description": "<p>méta-données de la réponse</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "meta.count",
+            "description": "<p>Count</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "meta.locale",
+            "description": "<p>Langue de la réponse</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Object",
+            "optional": false,
+            "field": "categorie",
+            "description": "<p>La catégorie</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "categorie.id",
+            "description": "<p>Id de la catégorie</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "categorie.nom",
+            "description": "<p>Nom de la catégorie</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "categorie.description",
+            "description": "<p>Description de la catégorie</p>"
           }
         ]
       },
       "examples": [
         {
           "title": "Success",
-          "content": "HTTP/1.1 200 OK\n[{\n\t\"id\": 1,\n\t\"nom\": \"bio\",\n\t\"description\": \"sandwichs ingrédients bio et locaux\"\n}]",
+          "content": "HTTP/1.1 200 OK\n{\n\t\"type\": \"collection\",\n\t\"meta\": {\n\t\t\"count\": 6,\n\t\t\"locale\": \"fr-FR\"\n\t},\n\t\"categorie\": {\n\t\t\"id\": 1,\n\t\t\"nom\": \"bio\",\n\t\t\"description\": \"sandwichs ingrédients bio et locaux\"\n\t}\n]",
           "type": "json"
         }
       ]
     },
-    "version": "0.0.0",
     "filename": "./rest.php",
     "groupTitle": "Categorie",
     "name": "GetCategories"
@@ -55,6 +465,7 @@ define({ "api": [
     "url": "/categories/:id",
     "title": "Trouver une catégorie",
     "group": "Categorie",
+    "version": "1.0.0",
     "parameter": {
       "fields": {
         "Parameter": [
@@ -73,7 +484,28 @@ define({ "api": [
         "Success 200": [
           {
             "group": "Success 200",
-            "type": "Object[]",
+            "type": "String",
+            "optional": false,
+            "field": "type",
+            "description": "<p>type de réponse</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Object",
+            "optional": false,
+            "field": "meta",
+            "description": "<p>méta-donnée de la réponse</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "meta.locale",
+            "description": "<p>Langue de la réponse</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Object",
             "optional": false,
             "field": "categories",
             "description": "<p>Liste des catégories</p>"
@@ -104,12 +536,30 @@ define({ "api": [
       "examples": [
         {
           "title": "Success",
-          "content": "HTTP/1.1 200 OK\n[{\n\t\"id\": 1,\n\t\"nom\": \"bio\",\n\t\"description\": \"sandwichs ingrédients bio et locaux\"\n}]",
+          "content": "HTTP/1.1 200 OK\n{\n\t\"type\": \"collection\",\n\t\"meta\": {\n\t\t\"locale\": \"fr-FR\"\n\t},\n\t\"categorie\": {\n\t\t\"id\": 1,\n\t\t\"nom\": \"bio\",\n\t\t\"description\": \"sandwichs ingrédients bio et locaux\"\n\t}\n}",
           "type": "json"
         }
       ]
     },
-    "version": "0.0.0",
+    "error": {
+      "fields": {
+        "Erreur : 404": [
+          {
+            "group": "Erreur : 404",
+            "optional": false,
+            "field": "CategorieNotFound",
+            "description": "<p>Categorie inexistante</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "exemple de réponse en cas d'erreur",
+          "content": "HTTP/1.1 404 Not Found\n\n{\n  \"type\" : \"error',\n  \"error\" : 404,\n  \"message\" : ressource non disponible : /categories/86/\"\n}",
+          "type": "json"
+        }
+      ]
+    },
     "filename": "./rest.php",
     "groupTitle": "Categorie",
     "name": "GetCategoriesId"
@@ -119,12 +569,13 @@ define({ "api": [
     "url": "/sandwichs/:id/categories",
     "title": "Liste des catégories à laquelle le sandwich appartient",
     "group": "Categorie",
+    "version": "1.0.0",
     "parameter": {
       "fields": {
         "Parameter": [
           {
             "group": "Parameter",
-            "type": "id",
+            "type": "Number",
             "optional": false,
             "field": "id",
             "description": "<p>L'id du sandwich</p>"
@@ -137,7 +588,35 @@ define({ "api": [
         "Success 200": [
           {
             "group": "Success 200",
-            "type": "Object[]",
+            "type": "String",
+            "optional": false,
+            "field": "type",
+            "description": "<p>type de réponse</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Object",
+            "optional": false,
+            "field": "meta",
+            "description": "<p>méta-données de la réponse</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "meta.count",
+            "description": "<p>Count</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "meta.date",
+            "description": "<p>Date du jour</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Object",
             "optional": false,
             "field": "categories",
             "description": "<p>Liste des catégories à laquelle le sandwich appartient</p>"
@@ -189,12 +668,30 @@ define({ "api": [
       "examples": [
         {
           "title": "Success",
-          "content": "HTTP/1.1 200 OK\n[{\n\t\"categorie\":{\n\t\t\"id\": 4,\n\t\t\"nom\": \"traditionnel\",\n\t\t\"description\": \"sandwichs traditionnels : jambon, pâté, poulet etc ..\",\n\t\t\"pivot\":{\n\t\t\t\"sand_id\": 4,\n\t\t\t\"cat_id\": 3\n\t\t}\n\t},\n\t\"links\": {\n\t\t\"href\": \"/categories/3\"\n\t}\n}]",
+          "content": "HTTP/1.1 200 OK\n{\n\t\"type\" : \"collection\",\n\t\"meta\" : {\n\t\t\"count\" : 2,\n\t\t\"date\" : \"04-02-2018\"\n\t},\n\t\"categories\":{\n\t\t\"categorie\":{\n\t\t\t\"id\": 4,\n\t\t\t\"nom\": \"traditionnel\",\n\t\t\t\"description\": \"sandwichs traditionnels : jambon, pâté, poulet etc ..\",\n\t\t\t\"pivot\":{\n\t\t\t\t\"sand_id\": 4,\n\t\t\t\t\"cat_id\": 3\n\t\t\t}\n\t\t},\n\t\t\"links\": {\n\t\t\t\"href\": \"/categories/3\"\n\t\t}\n\t}\n}",
           "type": "json"
         }
       ]
     },
-    "version": "0.0.0",
+    "error": {
+      "fields": {
+        "Erreur : 404": [
+          {
+            "group": "Erreur : 404",
+            "optional": false,
+            "field": "CategorieNotFoundInSandwich",
+            "description": "<p>CategorieFromSandwich inexistante</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "exemple de réponse en cas d'erreur",
+          "content": "HTTP/1.1 404 Not Found\n\n{\n  \"type\" : \"error\",\n  \"error\" : 404,\n  \"message\" : \"ressource non disponible : /sandwichs/:id/categories\"\n}",
+          "type": "json"
+        }
+      ]
+    },
     "filename": "./rest.php",
     "groupTitle": "Categorie",
     "name": "GetSandwichsIdCategories"
@@ -204,6 +701,20 @@ define({ "api": [
     "url": "/categories",
     "title": "Ajout d'une catégorie",
     "group": "Categorie",
+    "version": "1.0.0",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "Content-Type",
+            "description": "<p>application/json;charset=utf-8</p>"
+          }
+        ]
+      }
+    },
     "parameter": {
       "fields": {
         "Parameter": [
@@ -226,37 +737,37 @@ define({ "api": [
       "examples": [
         {
           "title": "Input",
-          "content": "{\n\t\"nom\": \"nom de la categorie\",\n\t\"description\": \"description de la categorie\"\n}",
+          "content": "POST /categories/ HTTP/1.1\nHost: api.lbs.local:10080 \nContent-Type:application/json;charset=utf-8\n\n{\n\t\"nom\": \"nom de la categorie\",\n\t\"description\": \"description de la categorie\"\n}",
           "type": "json"
         }
       ]
     },
     "success": {
       "fields": {
-        "Success 200": [
+        "Success 201": [
           {
-            "group": "Success 200",
-            "type": "Object[]",
+            "group": "Success 201",
+            "type": "Object",
             "optional": false,
             "field": "categories",
             "description": "<p>Liste des catégories</p>"
           },
           {
-            "group": "Success 200",
+            "group": "Success 201",
             "type": "Number",
             "optional": false,
             "field": "categories.id",
             "description": "<p>Id de la catégories</p>"
           },
           {
-            "group": "Success 200",
+            "group": "Success 201",
             "type": "String",
             "optional": false,
             "field": "categories.nom",
             "description": "<p>Nom de la catégories</p>"
           },
           {
-            "group": "Success 200",
+            "group": "Success 201",
             "type": "String",
             "optional": false,
             "field": "categories.description",
@@ -267,12 +778,30 @@ define({ "api": [
       "examples": [
         {
           "title": "Success",
-          "content": "HTTP/1.1 201 OK\n[{\n\t\"id\": 17,\n\t\"nom\": \"nom de la categorie\",\n\t\"description\": \"description de la categorie\"\n}]",
+          "content": "HTTP/1.1 201 OK\nLocation: /categories/18\nContent-Type: application/json;charset=utf-8\n\n{\n\t\"id\": 18,\n\t\"nom\": \"nom de la categorie\",\n\t\"description\": \"description de la categorie\"\n}",
           "type": "json"
         }
       ]
     },
-    "version": "0.0.0",
+    "error": {
+      "fields": {
+        "Réponse : 400": [
+          {
+            "group": "Réponse : 400",
+            "optional": false,
+            "field": "MissingParameter",
+            "description": "<p>paramètre manquant dans la requête</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "exemple de réponse en cas d'erreur",
+          "content": "HTTP/1.1 400 Bad Request\n{\n\t\"type\": \"error\",\n\t\"error\" : 400,\n\t\"message\" : \"donnée manquante\"\n}",
+          "type": "json"
+        }
+      ]
+    },
     "filename": "./rest.php",
     "groupTitle": "Categorie",
     "name": "PostCategories"
@@ -282,18 +811,41 @@ define({ "api": [
     "url": "/categories/:id",
     "title": "Modification d'une catégorie",
     "group": "Categorie",
+    "version": "1.0.0",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "Content-Type",
+            "description": "<p>application/json;charset=utf-8</p>"
+          }
+        ]
+      }
+    },
     "parameter": {
       "fields": {
         "Parameter": [
           {
             "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "id",
+            "description": "<p>id de la categorie</p>"
+          }
+        ],
+        "paramètres de la requête": [
+          {
+            "group": "paramètres de la requête",
             "type": "String",
             "optional": false,
             "field": "nom",
             "description": "<p>Nom de la categorie</p>"
           },
           {
-            "group": "Parameter",
+            "group": "paramètres de la requête",
             "type": "String",
             "optional": false,
             "field": "description",
@@ -304,7 +856,7 @@ define({ "api": [
       "examples": [
         {
           "title": "Input",
-          "content": "{\n\t\"nom\": \"nom de la categorie\",\n\t\"description\": \"description de la categorie\"\n}",
+          "content": "PUT /categories/1 HTTP/1.1\nHost: api.lbs.local:10080\nContent-Type: application/json;charset=utf8\n{\n\t\"nom\": \"nom\",\n\t\"description\": \"description\"\n}",
           "type": "json"
         }
       ]
@@ -314,7 +866,7 @@ define({ "api": [
         "Success 200": [
           {
             "group": "Success 200",
-            "type": "Object[]",
+            "type": "Object",
             "optional": false,
             "field": "categories",
             "description": "<p>Liste des catégories</p>"
@@ -345,12 +897,11 @@ define({ "api": [
       "examples": [
         {
           "title": "Success",
-          "content": "HTTP/1.1 200 OK\n[{\n\t\"id\": 1,\n\t\"nom\": \"bio\",\n\t\"description\": \"sandwichs ingrédients bio et locaux\"\n}]",
+          "content": "HTTP/1.1 200 OK\nContent-Type: application/json;charset=utf8\n{\n\t\"id\": 1,\n\t\"nom\": \"nom\",\n\t\"description\": \"description\"\n}",
           "type": "json"
         }
       ]
     },
-    "version": "0.0.0",
     "filename": "./rest.php",
     "groupTitle": "Categorie",
     "name": "PutCategoriesId"
@@ -360,19 +911,20 @@ define({ "api": [
     "url": "/commandes/:id?token=:token",
     "title": "Affichage de la commande",
     "group": "Commande",
+    "version": "1.0.0",
     "parameter": {
       "fields": {
         "Parameter": [
           {
             "group": "Parameter",
-            "type": "id",
+            "type": "Number",
             "optional": false,
             "field": "id",
             "description": "<p>Id de la commande</p>"
           },
           {
             "group": "Parameter",
-            "type": "token",
+            "type": "String",
             "optional": false,
             "field": "token",
             "description": "<p>token de  la commande</p>"
@@ -385,7 +937,28 @@ define({ "api": [
         "Success 200": [
           {
             "group": "Success 200",
-            "type": "Object[]",
+            "type": "String",
+            "optional": false,
+            "field": "type",
+            "description": "<p>type de réponse</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Object",
+            "optional": false,
+            "field": "meta",
+            "description": "<p>méta-données de la réponse</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "meta.locale",
+            "description": "<p>Langue</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Object",
             "optional": false,
             "field": "commande",
             "description": "<p>Details de la commande</p>"
@@ -413,14 +986,14 @@ define({ "api": [
           },
           {
             "group": "Success 200",
-            "type": "Datetime",
+            "type": "String",
             "optional": false,
             "field": "commande.date",
             "description": "<p>Date de livraison voulu</p>"
           },
           {
             "group": "Success 200",
-            "type": "Datetime",
+            "type": "String",
             "optional": false,
             "field": "commande.heure",
             "description": "<p>Heure de livraison voulu</p>"
@@ -448,14 +1021,14 @@ define({ "api": [
           },
           {
             "group": "Success 200",
-            "type": "Datetime",
+            "type": "String",
             "optional": false,
             "field": "commande.created_at",
             "description": "<p>Date de création de la commande</p>"
           },
           {
             "group": "Success 200",
-            "type": "Datetime",
+            "type": "String",
             "optional": false,
             "field": "commande.updated_at",
             "description": "<p>Date de création ou de mise à jour de la commande</p>"
@@ -465,12 +1038,30 @@ define({ "api": [
       "examples": [
         {
           "title": "Success",
-          "content": "\tHTTP/1.1 200 OK\n\t[{\n\t\t\"commande\": {\n  \t\t\"id\": \"cdab64c8-0925-11e8-8a06-1ba8be3d6fc9\",\n  \t\t\"nom\": \"Jean Dupont\",\n  \t\t\"mail\": \"jean.dupond@gmail.com\",\n  \t\t\"date\": \"25-12-2018\",\n  \t\t\"heure\": \"14:00\",\n  \t\t\"etat\": 1,\n  \t\t\"token\": \"1015257d7d2bfc9f50086d93ea5ddc722baf4ebdfa082377e3a8f8fae9236734\",\n  \t\t\"carte\": null,\n  \t\t\"created_at\": \"2018-02-03 21:04:20\",\n  \t\t\"updated_at\": \"2018-02-03 21:04:20\"\n\t\t}\n\t}]",
+          "content": "HTTP/1.1 200 OK\n{\n\t\"type\" : \"collection\",\n\t\"meta\" : {\n\t\t\"locale\" : \"fr-FR\"\n\t},\n\t\"commande\": {\n\t\t\"id\": \"cdab64c8-0925-11e8-8a06-1ba8be3d6fc9\",\n\t\t\"nom\": \"Jean Dupont\",\n\t\t\"mail\": \"jean.dupond@gmail.com\",\n\t\t\"date\": \"25-12-2018\",\n\t\t\"heure\": \"14:00\",\n\t\t\"etat\": 1,\n\t\t\"token\": \"1015257d7d2bfc9f50086d93ea5ddc722baf4ebdfa082377e3a8f8fae9236734\",\n\t\t\"carte\": null,\n\t\t\"created_at\": \"2018-02-03 21:04:20\",\n\t\t\"updated_at\": \"2018-02-03 21:04:20\"\n\t}\n}",
           "type": "json"
         }
       ]
     },
-    "version": "0.0.0",
+    "error": {
+      "fields": {
+        "Erreur : 404": [
+          {
+            "group": "Erreur : 404",
+            "optional": false,
+            "field": "CommandeNotFound",
+            "description": "<p>Commande inexistante</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "exemple de réponse en cas d'erreur",
+          "content": "HTTP/1.1 404 Not Found\n\n{\n  \"type\" : \"error\",\n  \"error\" : 404,\n  \"message\" : \"ressource non disponible : /commandes/:id\"\n}",
+          "type": "json"
+        }
+      ]
+    },
     "filename": "./rest.php",
     "groupTitle": "Commande",
     "name": "GetCommandesIdTokenToken"
@@ -480,6 +1071,20 @@ define({ "api": [
     "url": "/commandes",
     "title": "Ajout d'une catégorie",
     "group": "Commande",
+    "version": "1.0.0",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "Content-Type",
+            "description": "<p>application/json;charset=utf-8</p>"
+          }
+        ]
+      }
+    },
     "parameter": {
       "fields": {
         "Parameter": [
@@ -499,21 +1104,21 @@ define({ "api": [
           },
           {
             "group": "Parameter",
-            "type": "Object[]",
+            "type": "Object",
             "optional": false,
             "field": "livraison",
             "description": "<p>Livraison</p>"
           },
           {
             "group": "Parameter",
-            "type": "Datetime",
+            "type": "String",
             "optional": false,
             "field": "livraison.date",
             "description": "<p>Date de livraison</p>"
           },
           {
             "group": "Parameter",
-            "type": "Datetime",
+            "type": "String",
             "optional": false,
             "field": "livraison.heure",
             "description": "<p>Heure de la livraison</p>"
@@ -533,7 +1138,7 @@ define({ "api": [
         "Success 200": [
           {
             "group": "Success 200",
-            "type": "Object[]",
+            "type": "Object",
             "optional": false,
             "field": "commande",
             "description": "<p>Liste des catégories</p>"
@@ -554,21 +1159,21 @@ define({ "api": [
           },
           {
             "group": "Success 200",
-            "type": "Object[]",
+            "type": "Object",
             "optional": false,
             "field": "commande.livraison",
             "description": "<p>Livraison</p>"
           },
           {
             "group": "Success 200",
-            "type": "Datetime",
+            "type": "String",
             "optional": false,
             "field": "commande.livraison.date",
             "description": "<p>Date de livraison</p>"
           },
           {
             "group": "Success 200",
-            "type": "Datetime",
+            "type": "String",
             "optional": false,
             "field": "commande.livraison.heure",
             "description": "<p>Heure de la livraison</p>"
@@ -592,12 +1197,30 @@ define({ "api": [
       "examples": [
         {
           "title": "Success",
-          "content": "\tHTTP/1.1 201 OK\n\t[{\n\t\t\"commande\": {\n  \t\t\"nom_client\": \"Jean Dupont\",\n  \t\t\"mail_client\": \"jean.dupond@gmail.com\",\n  \t\t\"livraison\": {\n    \t\t\t\"date\": \"25-12-2018\",\n    \t\t\t\"heure\": \"14:00\"\n  \t\t}\n\t\t},\n\t\t\"id\": \"8c883224-091f-11e8-ac97-ffd5582c965b\",\n\t\t\"token\": \"790b34ab7b68eb358b46ac0800df53da590e602f7f2341192ec40307226867af\"\n\t}]",
+          "content": "HTTP/1.1 201 OK\n{\n\t\"commande\": {\n\t\t\"nom_client\": \"Jean Dupont\",\n\t\t\"mail_client\": \"jean.dupond@gmail.com\",\n\t\t\"livraison\": {\n\t\t\t\"date\": \"25-12-2018\",\n\t\t\t\"heure\": \"14:00\"\n\t\t}\n\t},\n\t\"id\": \"8c883224-091f-11e8-ac97-ffd5582c965b\",\n\t\"token\": \"790b34ab7b68eb358b46ac0800df53da590e602f7f2341192ec40307226867af\"\n}",
           "type": "json"
         }
       ]
     },
-    "version": "0.0.0",
+    "error": {
+      "fields": {
+        "Réponse : 400": [
+          {
+            "group": "Réponse : 400",
+            "optional": false,
+            "field": "MissingParameter",
+            "description": "<p>paramètre manquant dans la requête</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "exemple de réponse en cas d'erreur",
+          "content": "HTTP/1.1 400 Bad Request\n{\n  \"type\": \"error\",\n  \"error\" : 400,\n  \"message\" : \"donnée manquante\"\n}",
+          "type": "json"
+        }
+      ]
+    },
     "filename": "./rest.php",
     "groupTitle": "Commande",
     "name": "PostCommandes"
@@ -607,19 +1230,42 @@ define({ "api": [
     "url": "/commandes/:id/paiement",
     "title": "Paiement d'une commande",
     "group": "Commande",
+    "version": "1.0.0",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "Content-Type",
+            "description": "<p>application/json;charset=utf-8</p>"
+          }
+        ]
+      }
+    },
     "parameter": {
       "fields": {
         "Parameter": [
           {
             "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "id",
+            "description": "<p>L'id du sandwich</p>"
+          }
+        ],
+        "paramètres de la requête": [
+          {
+            "group": "paramètres de la requête",
             "type": "String",
             "optional": false,
             "field": "carte_bc",
             "description": "<p>Numéro de carte banquaire du client</p>"
           },
           {
-            "group": "Parameter",
-            "type": "Datetime",
+            "group": "paramètres de la requête",
+            "type": "String",
             "optional": false,
             "field": "date_expiration_bc",
             "description": "<p>Date d'expiration de la carte banquaire du client</p>"
@@ -629,7 +1275,7 @@ define({ "api": [
       "examples": [
         {
           "title": "Input",
-          "content": "{\n\t\"carte_bc\": \"1111 2222 3333 4444\",\n\t\"date_expiration_bc\": \"12/18\"\n}",
+          "content": "{\n\t\"carte_bc\": \"1111222233334444\",\n\t\"date_expiration_bc\": \"12/18\"\n}",
           "type": "json"
         }
       ]
@@ -638,12 +1284,30 @@ define({ "api": [
       "examples": [
         {
           "title": "Success",
-          "content": "\tHTTP/1.1 200 OK\n\t[{\n  \t\"type\": \"message\",\n  \t\"error\": \"200\",\n  \t\"message\": \"Paiement accépté\"\n }]",
+          "content": "HTTP/1.1 200 OK\nPOST /commandes/ HTTP/1.1\nHost: api.lbs.local:10080\nContent-Type: application/json;charset=utf8\nLocation: /commandes/e3786989-e0d2-4cfb-a72f-455ca4a16beb/paiement\n\n{\n\t\"type\": \"message\",\n\t\"error\": \"200\",\n\t\"message\": \"Paiement accépté\"\n}",
           "type": "json"
         }
       ]
     },
-    "version": "0.0.0",
+    "error": {
+      "fields": {
+        "Réponse : 400": [
+          {
+            "group": "Réponse : 400",
+            "optional": false,
+            "field": "MissingParameter",
+            "description": "<p>paramètre manquant dans la requête</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "exemple de réponse en cas d'erreur",
+          "content": "HTTP/1.1 400 Bad Request\n{\n  \"type\": \"error\",\n  \"error\" : 400,\n  \"message\" : \"donnée manquante\"\n}",
+          "type": "json"
+        }
+      ]
+    },
     "filename": "./rest.php",
     "groupTitle": "Commande",
     "name": "PostCommandesIdPaiement"
@@ -653,6 +1317,7 @@ define({ "api": [
     "url": "/commandes/:id/sandwichs",
     "title": "Ajout d'un sandwich à une commande",
     "group": "Commande",
+    "version": "1.0.0",
     "parameter": {
       "fields": {
         "Parameter": [
@@ -665,7 +1330,7 @@ define({ "api": [
           },
           {
             "group": "Parameter",
-            "type": "Object[]",
+            "type": "Object",
             "optional": false,
             "field": "sandwich",
             "description": "<p>Sandwich</p>"
@@ -705,12 +1370,30 @@ define({ "api": [
       "examples": [
         {
           "title": "Success",
-          "content": "\tHTTP/1.1 200 OK\n\t[{\n  \t\"id_commande\": \"cdab64c8-0925-11e8-8a06-1ba8be3d6fc9\",\n\t\t\"sandwich\": {\n\t\t\t\"id_sandwich\": 4,\n\t\t\t\"id_taille\": 1,\n\t\t\t\"quantite\": 1\n\t\t}\n }]",
+          "content": "HTTP/1.1 200 OK\nPOST /commandes/cdab64c8-0925-11e8-8a06-1ba8be3d6fc9/sandwichs HTTP1.1 \nHOST: api.lbs.local:10080 \nContent-Type: application/json;charset=utf-8 \nLocation: /commandes/cdab64c8-0925-11e8-8a06-1ba8be3d6fc9/sandiwchs\n{\n\t\"id_commande\": \"cdab64c8-0925-11e8-8a06-1ba8be3d6fc9\",\n\t\"sandwich\": {\n\t\t\"id_sandwich\": 4,\n\t\t\"id_taille\": 1,\n\t\t\"quantite\": 1\n\t}\n}",
           "type": "json"
         }
       ]
     },
-    "version": "0.0.0",
+    "error": {
+      "fields": {
+        "Réponse : 400": [
+          {
+            "group": "Réponse : 400",
+            "optional": false,
+            "field": "MissingParameter",
+            "description": "<p>paramètre manquant dans la requête</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "exemple de réponse en cas d'erreur",
+          "content": "HTTP/1.1 400 Bad Request\n{\n  \"type\": \"error\",\n  \"error\" : 400,\n  \"message\" : \"donnée manquante\"\n}",
+          "type": "json"
+        }
+      ]
+    },
     "filename": "./rest.php",
     "groupTitle": "Commande",
     "name": "PostCommandesIdSandwichs"
@@ -720,12 +1403,13 @@ define({ "api": [
     "url": "/categories/:id/sandwichs",
     "title": "Liste des sandwichs apartenant à la catégorie",
     "group": "Sandwich",
+    "version": "1.0.0",
     "parameter": {
       "fields": {
         "Parameter": [
           {
             "group": "Parameter",
-            "type": "id",
+            "type": "Number",
             "optional": false,
             "field": "id",
             "description": "<p>L'id de la catégorie</p>"
@@ -738,7 +1422,35 @@ define({ "api": [
         "Success 200": [
           {
             "group": "Success 200",
-            "type": "Object[]",
+            "type": "String",
+            "optional": false,
+            "field": "type",
+            "description": "<p>type de réponse</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Object",
+            "optional": false,
+            "field": "meta",
+            "description": "<p>méta-données de la réponse</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "meta.count",
+            "description": "<p>Count</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "meta.date",
+            "description": "<p>Date du jour</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Object",
             "optional": false,
             "field": "sandwichs",
             "description": "<p>Liste des sandwichs appartenant à la catégorie</p>"
@@ -776,12 +1488,30 @@ define({ "api": [
       "examples": [
         {
           "title": "Success",
-          "content": "HTTP/1.1 200 OK\n[{\"sandwich\":{\n\t\"id\": 4,\n\t\"nom\": \"le bucheron\",\n\t\"type_pain\": \"baguette campagne\"\n},\n\"links\":{\n\t\"href\": \"sandwichs/4\"\n}}]",
+          "content": "HTTP/1.1 200 OK\n{\n\t\"type\" : \"collection\",\n\t\"meta\" : {\n\t\t\"count\" : 1,\n\t\t\"date\" : \"04-02-2018\"\n\t},\n\t\"sandwichs\": {\n\t\t\"sandwich\":{\n\t\t\t\"id\": 4,\n\t\t\t\"nom\": \"le bucheron\",\n\t\t\t\"type_pain\": \"baguette campagne\"\n\t\t},\n\t\t\"links\":{\n\t\t\t\"href\": \"sandwichs/4\"\n\t\t}\n\t}\n\t\n}",
           "type": "json"
         }
       ]
     },
-    "version": "0.0.0",
+    "error": {
+      "fields": {
+        "Erreur : 404": [
+          {
+            "group": "Erreur : 404",
+            "optional": false,
+            "field": "SandwichNotFoundFromCategorie",
+            "description": "<p>SandwichFromCategorie inexistante</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "exemple de réponse en cas d'erreur",
+          "content": "HTTP/1.1 404 Not Found\n\n{\n  \"type\" : \"error\",\n  \"error\" : 404,\n  \"message\" : \"ressource non disponible : categories/:id/sandwich\"\n}",
+          "type": "json"
+        }
+      ]
+    },
     "filename": "./rest.php",
     "groupTitle": "Sandwich",
     "name": "GetCategoriesIdSandwichs"
@@ -791,6 +1521,7 @@ define({ "api": [
     "url": "/sandwich",
     "title": "Liste des sandwichs",
     "group": "Sandwich",
+    "version": "1.0.0",
     "parameter": {
       "fields": {
         "Parameter": [
@@ -809,7 +1540,42 @@ define({ "api": [
         "Success 200": [
           {
             "group": "Success 200",
-            "type": "Object[]",
+            "type": "String",
+            "optional": false,
+            "field": "type",
+            "description": "<p>type de réponse</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Object",
+            "optional": false,
+            "field": "meta",
+            "description": "<p>méta-données de la réponse</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "meta.count",
+            "description": "<p>Count</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "meta.size",
+            "description": "<p>Size</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "meta.date",
+            "description": "<p>Date du jour</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Object",
             "optional": false,
             "field": "sandwichs",
             "description": "<p>Liste des sandwichs</p>"
@@ -832,34 +1598,33 @@ define({ "api": [
             "group": "Success 200",
             "type": "String",
             "optional": false,
-            "field": "sandwichs.description",
-            "description": "<p>Description du sandwich</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
             "field": "sandwichs.type_pain",
             "description": "<p>type de pain du sandwich</p>"
           },
           {
             "group": "Success 200",
+            "type": "Object",
+            "optional": false,
+            "field": "sandwichs.links",
+            "description": "<p>Lien</p>"
+          },
+          {
+            "group": "Success 200",
             "type": "String",
             "optional": false,
-            "field": "sandwichs.img",
-            "description": "<p>Lien de l'img du sandwich</p>"
+            "field": "sandwichs.links.href",
+            "description": "<p>Lien vers son détail</p>"
           }
         ]
       },
       "examples": [
         {
           "title": "Success",
-          "content": "HTTP/1.1 200 OK\n[{\n\t\"id\": 4,\n\t\"nom\": \"le bucheron\",\n\t\"description\": \"un sandwich de bucheron : frites, fromage, saucisse, steack, lard grillé, mayo\",\n\t\"type_pain\": \"baguette campagne\",\n\t\"img\": \"www.google.fr\"\n}]",
+          "content": "HTTP/1.1 200 OK\n{\n\t\"type\" : \"collection\",\n\t\"meta\" : {\n\t\t\"count\" : 111,\n\t\t\"size\" : 10,\n\t\t\"date\" : \"04-02-2018\"\n\t},\n\t\"sandwichs\" : {\n\t\t\"id\"  : 4 ,\n\t\t\"nom\" : \"le bucheron\",\n\t\t\"type_pain\" : \"baguette campagne\",\n\t\t\"links\" : {\n\t\t\t\"href\" : \"/sandwichs/4\"\n\t\t}\n\t}\n}",
           "type": "json"
         }
       ]
     },
-    "version": "0.0.0",
     "filename": "./rest.php",
     "groupTitle": "Sandwich",
     "name": "GetSandwich"
@@ -869,6 +1634,7 @@ define({ "api": [
     "url": "/sandwich/:id",
     "title": "Trouver un sandwich",
     "group": "Sandwich",
+    "version": "1.0.0",
     "parameter": {
       "fields": {
         "Parameter": [
@@ -887,7 +1653,28 @@ define({ "api": [
         "Success 200": [
           {
             "group": "Success 200",
-            "type": "Object[]",
+            "type": "String",
+            "optional": false,
+            "field": "type",
+            "description": "<p>type de réponse</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Object",
+            "optional": false,
+            "field": "meta",
+            "description": "<p>méta-donnée de la réponse</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "meta.locale",
+            "description": "<p>Langue de la réponse</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Object",
             "optional": false,
             "field": "sandwich",
             "description": "<p>Sandwich</p>"
@@ -929,7 +1716,7 @@ define({ "api": [
           },
           {
             "group": "Success 200",
-            "type": "Object[]",
+            "type": "Object",
             "optional": false,
             "field": "categories",
             "description": "<p>Categories</p>"
@@ -950,6 +1737,13 @@ define({ "api": [
           },
           {
             "group": "Success 200",
+            "type": "Object",
+            "optional": false,
+            "field": "categories.pivot",
+            "description": ""
+          },
+          {
+            "group": "Success 200",
             "type": "Number",
             "optional": false,
             "field": "categories.pivot.sand_id",
@@ -964,7 +1758,7 @@ define({ "api": [
           },
           {
             "group": "Success 200",
-            "type": "Object[]",
+            "type": "Object",
             "optional": false,
             "field": "tailles",
             "description": "<p>Tailles</p>"
@@ -992,10 +1786,17 @@ define({ "api": [
           },
           {
             "group": "Success 200",
-            "type": "Object[]",
+            "type": "Object",
             "optional": false,
             "field": "links",
             "description": "<p>Lien</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Object",
+            "optional": false,
+            "field": "links.categories",
+            "description": "<p>Lien de la liaison</p>"
           },
           {
             "group": "Success 200",
@@ -1003,6 +1804,13 @@ define({ "api": [
             "optional": false,
             "field": "links.categories.href",
             "description": "<p>Lien</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Object",
+            "optional": false,
+            "field": "links.tailles",
+            "description": "<p>Lien de la liaison</p>"
           },
           {
             "group": "Success 200",
@@ -1016,12 +1824,30 @@ define({ "api": [
       "examples": [
         {
           "title": "Success",
-          "content": "HTTP/1.1 200 OK\n[{\"sandwich\": {\n\t\"id\": 4,\n\t\"nom\": \"le bucheron\",\n\t\"description\": \"un sandwich de bucheron : frites, fromage, saucisse, steack, lard grillé, mayo\",\n\t\"type_pain\": \"baguette campagne\",\n\t\"img\": \"www.google.fr\"\n},\n\"categories\":{\n\t\"id\": 3,\n\t\"nom\": \"traditionnel\",\n\t\"pivot\":{\n\t\t\"sand_id\": 4,\n\t\t\"cat_id\": 3\n\t}\n},\n\"tailles\":{\n\t\"id\": 1,\n\t\"nom\": \"petite faim\",\n\t\"prix\": \"6.00\"\n},\n\"links\":{\n\t\"categories\": {\n\t\t\"href\": \"/sandwichs/4/categories\"\n\t},\n\t\"tailles\": {\n\t\t\"href\": \"/sandwichs/4/tailles\"\n\t}\n}}]",
+          "content": "HTTP/1.1 200 OK\n{\n\t\"type\": \"collection\",\n\t\"meta\": {\n\t\t\"locale\": \"fr-FR\"\n\t},\n\t\"sandwich\": {\n\t\t\"id\": 4,\n\t\t\"nom\": \"le bucheron\",\n\t\t\"description\": \"un sandwich de bucheron : frites, fromage, saucisse, steack, lard grillé, mayo\",\n\t\t\"type_pain\": \"baguette campagne\",\n\t\t\"img\": \"www.google.fr\"\n\t},\n\t\"categories\":{\n\t\t\"id\": 3,\n\t\t\"nom\": \"traditionnel\",\n\t\t\"pivot\":{\n\t\t\t\"sand_id\": 4,\n\t\t\t\"cat_id\": 3\n\t\t}\n\t},\n\t\"tailles\":{\n\t\t\"id\": 1,\n\t\t\"nom\": \"petite faim\",\n\t\t\"prix\": \"6.00\"\n\t},\n\t\"links\":{\n\t\t\"categories\": {\n\t\t\t\"href\": \"/sandwichs/4/categories\"\n\t\t},\n\t\t\"tailles\": {\n\t\t\t\"href\": \"/sandwichs/4/tailles\"\n\t\t}\n\t}\n}",
           "type": "json"
         }
       ]
     },
-    "version": "0.0.0",
+    "error": {
+      "fields": {
+        "Erreur : 404": [
+          {
+            "group": "Erreur : 404",
+            "optional": false,
+            "field": "SandwichNotFound",
+            "description": "<p>Sandwich inexistante</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "exemple de réponse en cas d'erreur",
+          "content": "HTTP/1.1 404 Not Found\n\n{\n\t\"type\" : \"error\",\n\t\"error\" : 404,\n\t\"message\" : \"ressource non disponible : /sandwichs/1/\"\n}",
+          "type": "json"
+        }
+      ]
+    },
     "filename": "./rest.php",
     "groupTitle": "Sandwich",
     "name": "GetSandwichId"
@@ -1031,12 +1857,13 @@ define({ "api": [
     "url": "/sandwichs/:id/tailles",
     "title": "Liste des tailles à laquelle le sandwich appartient",
     "group": "Taille",
+    "version": "1.0.0",
     "parameter": {
       "fields": {
         "Parameter": [
           {
             "group": "Parameter",
-            "type": "id",
+            "type": "Number",
             "optional": false,
             "field": "id",
             "description": "<p>L'id du sandwich</p>"
@@ -1049,7 +1876,35 @@ define({ "api": [
         "Success 200": [
           {
             "group": "Success 200",
-            "type": "Object[]",
+            "type": "String",
+            "optional": false,
+            "field": "type",
+            "description": "<p>type de réponse</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Object",
+            "optional": false,
+            "field": "meta",
+            "description": "<p>méta-données de la réponse</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "meta.count",
+            "description": "<p>Count</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "meta.date",
+            "description": "<p>Date du jour</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Object",
             "optional": false,
             "field": "tailles",
             "description": "<p>Liste des tailles à laquelle le sandwich appartient</p>"
@@ -1094,12 +1949,30 @@ define({ "api": [
       "examples": [
         {
           "title": "Success",
-          "content": "HTTP/1.1 200 OK\n[{\n\t\"taille\":{\n\t\t\"id\": 1,\n\t\t\"nom\": \"petite faim\",\n\t\t\"prix\": \"6.00\",\n\t\t\"pivot\":{\n\t\t\t\"sand_id\": 4,\n\t\t\t\"cat_id\": 1\n\t\t}\n\t}\n}]",
+          "content": "HTTP/1.1 200 OK\n{\n\t\"type\" : \"collection\",\n\t\"meta\" : {\n\t\t\"count\" : 2,\n\t\t\"date\" : \"04-02-2018\"\n\t},\n\t\"tailles\":{\n\t\t\"taille\":{\n\t\t\t\"id\": 1,\n\t\t\t\"nom\": \"petite faim\",\n\t\t\t\"prix\": \"6.00\",\n\t\t\t\"pivot\":{\n\t\t\t\t\"sand_id\": 4,\n\t\t\t\t\"cat_id\": 1\n\t\t\t}\n\t\t}\n\t}\n}",
           "type": "json"
         }
       ]
     },
-    "version": "0.0.0",
+    "error": {
+      "fields": {
+        "Erreur : 404": [
+          {
+            "group": "Erreur : 404",
+            "optional": false,
+            "field": "TailleNotFoundInSandwich",
+            "description": "<p>TailleFromSandwich inexistante</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "exemple de réponse en cas d'erreur",
+          "content": "HTTP/1.1 404 Not Found\n\n{\n  \"type\" : \"error\",\n  \"error\" : 404,\n  \"message\" : \"ressource non disponible : /sandwichs/:id/tailles\"\n}",
+          "type": "json"
+        }
+      ]
+    },
     "filename": "./rest.php",
     "groupTitle": "Taille",
     "name": "GetSandwichsIdTailles"
