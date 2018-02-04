@@ -39,7 +39,17 @@ $container['view'] = function ($c) {
 };
 
 
-
+/**
+ * 
+ * @api {get} /categorie/:id Affichage de la catégorie
+ * @apiGroup categorie
+ * @apiVersion  1.0.0
+ * 
+ * 
+ * @apiParam  {String} id Id de la catégorie
+ * 
+ * @apiSuccess (200) {html} Success
+ */
 
 // Define named route
 $app->get('/categorie/{id}', function ($request, $response, $args) {
@@ -56,7 +66,14 @@ $app->get('/categorie/{id}', function ($request, $response, $args) {
 
 
 
-
+/**
+ * 
+ * @api {get} /connexion Affichage de la page de connexion
+ * @apiGroup connexion
+ * @apiVersion  1.0.0
+ * 
+ * @apiSuccess (200) {html} Success
+ */
 // Define named route
 $app->get('/connexion', function ($request, $response, $args) {
 
@@ -65,7 +82,14 @@ $app->get('/connexion', function ($request, $response, $args) {
 })->setName('connexion');
 
 
-
+/**
+ * 
+ * @api {post} /connexion Requête de connexion
+ * @apiGroup connexion
+ * @apiVersion  1.0.0
+ * 
+ * @apiSuccess (200) {html} Success
+ */
 // Define named route
 $app->post('/connexion', function ($request, $response, $args) {
 
@@ -107,7 +131,14 @@ $app->post('/connexion', function ($request, $response, $args) {
 
 
 
-
+/**
+ * 
+ * @api {get} /liste Affichage des catégories
+ * @apiGroup liste
+ * @apiVersion  1.0.0
+ * 
+ * @apiSuccess (200) {html} Success
+ */
 $app->get('/liste[/]', function ($request, $response, $args) {
 
     $arr = new \lbs\common\models\Categorie();

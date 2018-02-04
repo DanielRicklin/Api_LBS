@@ -11,7 +11,9 @@ Ces instructions vous permettront d'obtenir une copie du projet opérationnel su
 **Backeng de gestion :** gestion.lbs.local:10081
 
 ### Documentation API
-api.lbs.local:10080/apidoc
+* api.lbs.local:10080/apidoc
+* private.lbs.local:10090/apidoc
+* gestion.lbs.local:10081/apidoc
 
 
 ### Prérequis

@@ -1,0 +1,8 @@
+{
+    "name": "Private LBS",
+    "version": "1.0.0",
+    "description": "Documentation de la partie privée de l'api",
+    "template": {
+        "forceLanguage": "fr"
+    }
+}

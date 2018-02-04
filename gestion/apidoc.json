@@ -1,0 +1,8 @@
+{
+    "name": "Gestion LBS",
+    "version": "1.0.0",
+    "description": "Documentation de la partie gestion de l'api",
+    "template": {
+        "forceLanguage": "fr"
+    }
+}

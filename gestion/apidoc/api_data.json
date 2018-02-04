@@ -1,0 +1,135 @@
+[
+  {
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "optional": false,
+            "field": "varname1",
+            "description": "<p>No type.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "varname2",
+            "description": "<p>With type.</p>"
+          }
+        ]
+      }
+    },
+    "type": "",
+    "url": "",
+    "version": "0.0.0",
+    "filename": "./apidoc/main.js",
+    "group": "_home_daniel_ApiPhP_LeBonSandwich_gestion_apidoc_main_js",
+    "groupTitle": "_home_daniel_ApiPhP_LeBonSandwich_gestion_apidoc_main_js",
+    "name": ""
+  },
+  {
+    "type": "get",
+    "url": "/categorie/:id",
+    "title": "Affichage de la catégorie",
+    "group": "categorie",
+    "version": "1.0.0",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "id",
+            "description": "<p>Id de la catégorie</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "200": [
+          {
+            "group": "200",
+            "type": "html",
+            "optional": false,
+            "field": "Success",
+            "description": ""
+          }
+        ]
+      }
+    },
+    "filename": "./rest.php",
+    "groupTitle": "categorie",
+    "name": "GetCategorieId"
+  },
+  {
+    "type": "get",
+    "url": "/connexion",
+    "title": "Affichage de la page de connexion",
+    "group": "connexion",
+    "version": "1.0.0",
+    "success": {
+      "fields": {
+        "200": [
+          {
+            "group": "200",
+            "type": "html",
+            "optional": false,
+            "field": "Success",
+            "description": ""
+          }
+        ]
+      }
+    },
+    "filename": "./rest.php",
+    "groupTitle": "connexion",
+    "name": "GetConnexion"
+  },
+  {
+    "type": "post",
+    "url": "/connexion",
+    "title": "Requête de connexion",
+    "group": "connexion",
+    "version": "1.0.0",
+    "success": {
+      "fields": {
+        "200": [
+          {
+            "group": "200",
+            "type": "html",
+            "optional": false,
+            "field": "Success",
+            "description": ""
+          }
+        ]
+      }
+    },
+    "filename": "./rest.php",
+    "groupTitle": "connexion",
+    "name": "PostConnexion"
+  },
+  {
+    "type": "get",
+    "url": "/liste",
+    "title": "Affichage des catégories",
+    "group": "liste",
+    "version": "1.0.0",
+    "success": {
+      "fields": {
+        "200": [
+          {
+            "group": "200",
+            "type": "html",
+            "optional": false,
+            "field": "Success",
+            "description": ""
+          }
+        ]
+      }
+    },
+    "filename": "./rest.php",
+    "groupTitle": "liste",
+    "name": "GetListe"
+  }
+]
