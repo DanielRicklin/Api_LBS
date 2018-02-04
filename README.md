@@ -57,6 +57,6 @@ Dans /src composer install
 ## Auteurs
 
 * **Daniel Ricklin** - [Github](https://github.com/DanielRicklin)
-* **alhasnecode** - [Github](https://github.com/alhasnecode)
+* **Mohamed Alhasne** - [Github](https://github.com/alhasnecode)
 * **Baptiste Texier**- [Github](https://github.com/texier54)
 * **Islam Elshobokshy** - [Github](https://github.com/elshobokshy)
